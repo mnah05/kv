@@ -32,14 +32,16 @@ func Open(walPath string) (*Store, error) {
 
 	s.loadSnapshot()
 
-	s.wal.Replay(func(op byte, key, value string) {
+	if err := s.wal.Replay(func(op byte, key, value string) {
 		switch op {
 		case tinywal.OpPut:
 			s.data[key] = value
 		case tinywal.OpDelete:
 			delete(s.data, key)
 		}
-	})
+	}); err != nil {
+		log.Printf("WAL replay error (partial recovery): %v", err)
+	}
 
 	return s, nil
 }
