@@ -95,5 +95,7 @@ func (s *Store) loadSnapshot() {
 	}
 	if err := json.Unmarshal(data, &s.data); err != nil {
 		log.Printf("WARNING: snapshot corrupt (%v), falling back to WAL replay", err)
+		return
 	}
+	log.Printf("Total number of entries restores:", len(s.data))
 }
