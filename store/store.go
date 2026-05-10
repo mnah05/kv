@@ -97,5 +97,5 @@ func (s *Store) loadSnapshot() {
 		log.Printf("WARNING: snapshot corrupt (%v), falling back to WAL replay", err)
 		return
 	}
-	log.Printf("Total number of entries restores:", len(s.data))
+	log.Printf("Total number of entries restores: %d", len(s.data))
 }
